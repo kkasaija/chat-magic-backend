@@ -10,14 +10,30 @@ const userSchema = await new mongoose.Schema(
     email: {
       type: String,
       required: [true, "Email field cannot be empty"],
-      unique: true,
+      unique: [true, "Email already exists"],
     },
 
     password: {
       type: String,
       required: [true, "password field cannot be empty"],
       minLength: 6,
+      select: false,
     },
+
+    confirm_password: {
+      type: String,
+      required: [true, "password field cannot be empty"],
+      validate: {
+        //this validator only works for save() and create() methods
+        validator: function (conf_pass) {
+          return conf_pass === this.password;
+        },
+        message: "The provided passwords do not match",
+      },
+    },
+
+    passwordResetToken: String,
+    passwordResetTokenExpiresIn: Date,
   },
   { timestamps: true }
 );

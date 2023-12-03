@@ -26,7 +26,8 @@
 
 # 📖 [CHAT-MAGIC-BACKEND] <a name="about-project"></a>
 
-> A simple social media backend application inspired by the existing social media applications such as facebook and twitter
+> A simple social media backend application inspired by the existing social
+> media applications such as facebook and twitter
 
 ## 🛠 Built With <a name="built-with">MERN</a>
 
@@ -57,11 +58,11 @@
 
 ### Key Features <a name="key-features"></a>
 
-> Describe between 1-3 key features of the application.
-
-- **[key_feature_1]**
-- **[key_feature_2]**
-- **[key_feature_3]**
+  - >SignUp &nbsp; `User can signup to the application by way of registration`
+  - >User_list &nbsp; `Visitors can see a list of registered users`
+  - >Authentication &nbsp; `Registered users able to sign in and out`
+  - >Protected User Profile &nbsp; `Only registered users can see user profile after sign in`
+  - >Authorized User edit and delete &nbsp; `Only authenticated users can edit and delete their own profiles`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -165,9 +166,9 @@ Example:
 
 👤 **KASAIJA KENNETH**
 
-  > GitHub: [Github](https://github.com/Kasaija-Kenneth)</br>
-  > Twitter: [X](https://twitter.com/kenn_ug)</br>
-  > LinkedIn: [LinkedIn](https://linkedin.com/in/kasaija-kenneth)
+> GitHub: [Github](https://github.com/Kasaija-Kenneth)</br> Twitter:
+> [X](https://twitter.com/kenn_ug)</br> LinkedIn:
+> [LinkedIn](https://linkedin.com/in/kasaija-kenneth)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -217,7 +218,8 @@ I would like to thank...
 
 ## ❓ FAQ (OPTIONAL) <a name="faq"></a>
 
-> Add at least 2 questions new developers would ask when they decide to use your project.
+> Add at least 2 questions new developers would ask when they decide to use your
+> project.
 
 - **[Question_1]**
 
@@ -235,6 +237,11 @@ I would like to thank...
 
 This project is [MIT](./LICENSE) licensed.
 
-_NOTE: we recommend using the [MIT license](https://choosealicense.com/licenses/mit/) - you can set it up quickly by [using templates available on GitHub](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository). You can also use [any other license](https://choosealicense.com/licenses/) if you wish._
+_NOTE: we recommend using the
+[MIT license](https://choosealicense.com/licenses/mit/) - you can set it up
+quickly by
+[using templates available on GitHub](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository).
+You can also use [any other license](https://choosealicense.com/licenses/) if
+you wish._
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

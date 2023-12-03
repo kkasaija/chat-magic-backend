@@ -42,14 +42,14 @@
 <details>
   <summary>Server</summary>
   <ul>
-    <li><a href="https://expressjs.com/">Express.js</a></li>
+    <li><a href="https://expressjs.com/">Express</a></li>
   </ul>
 </details>
 
 <details>
 <summary>Database</summary>
   <ul>
-    <li><a href="https://www.postgresql.org/">MongoDB</a></li>
+    <li><a href="https://www.mongodb.com/">MongoDB</a></li>
   </ul>
 </details>
 
@@ -71,7 +71,7 @@
 
 > Add a link to your deployed project.
 
-- [Live Demo Link](https://google.com)
+- [Live Demo Link]()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -161,21 +161,13 @@ Example:
 
 <!-- AUTHORS -->
 
-## 👥 Authors <a name="authors"></a>
+## 👥 Author <a name="authors"></a>
 
-> Mention all of the collaborators of this project.
+👤 **KASAIJA KENNETH**
 
-👤 **Author1**
-
-- GitHub: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
-
-👤 **Author2**
-
-- GitHub: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
+  > GitHub: [Github](https://github.com/Kasaija-Kenneth)</br>
+  > Twitter: [X](https://twitter.com/kenn_ug)</br>
+  > LinkedIn: [LinkedIn](https://linkedin.com/in/kasaija-kenneth)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

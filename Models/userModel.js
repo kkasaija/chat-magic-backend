@@ -31,9 +31,6 @@ const userSchema = await new mongoose.Schema(
         message: "The provided passwords do not match",
       },
     },
-
-    passwordResetToken: String,
-    passwordResetTokenExpiresIn: Date,
   },
   { timestamps: true }
 );

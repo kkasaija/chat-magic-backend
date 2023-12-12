@@ -1,4 +1,3 @@
-exports.signUp = async (req, res) => {};
 exports.getUsers = async (req, res) => {};
 exports.getUser = async (req, res) => {};
 exports.updateUser = async (req, res) => {};

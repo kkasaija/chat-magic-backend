@@ -17,7 +17,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "password field cannot be empty"],
       minLength: 6,
-      select: false,
     },
 
     confirm_password: {

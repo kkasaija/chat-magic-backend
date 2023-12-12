@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = await new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -31,11 +31,8 @@ const userSchema = await new mongoose.Schema(
         message: "The provided passwords do not match",
       },
     },
-
-    passwordResetToken: String,
-    passwordResetTokenExpiresIn: Date,
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", UserSchema);

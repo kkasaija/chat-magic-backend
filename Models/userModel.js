@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = await new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -35,4 +35,4 @@ const userSchema = await new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", UserSchema);

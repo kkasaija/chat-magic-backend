@@ -72,6 +72,7 @@
 > Add a link to your deployed project.
 
 - [Live Demo Link]()
+- [Frontend Link](https://github.com/Kasaija-Kenneth/chat-magic-frontend)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -177,7 +178,7 @@ Example:
 
 - [ ] **[Authentication]**
 - [ ] **[Authorization]**
-
+- [ ] **[Password_Encryption]**
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
@@ -186,7 +187,7 @@ Example:
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](../../issues/).
+Feel free to check the [issues page](https://github.com/Kasaija-Kenneth/chat-magic-backend/issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

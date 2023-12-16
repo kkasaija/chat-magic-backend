@@ -57,11 +57,13 @@
 
 ### Key Features <a name="key-features"></a>
 
-  - >SignUp &nbsp; `User can signup to the application by way of registration`
-  - >User_list &nbsp; `Visitors can see a list of registered users`
-  - >Authentication &nbsp; `Registered users able to sign in and out`
-  - >Protected User Profile &nbsp; `Only registered users can see user profile after sign in`
-  - >Authorized User edit and delete &nbsp; `Only authenticated users can edit and delete their own profiles`
+- > SignUp &nbsp; `User can signup to the application by way of registration`
+- > User_list &nbsp; `Visitors can see a list of registered users`
+- > Authentication &nbsp; `Registered users able to sign in and out`
+- > Protected User Profile &nbsp;
+  > `Only registered users can see user profile after sign in`
+- > Authorized User edit and delete &nbsp;
+  > `Only authenticated users can edit and delete their own profiles`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -179,6 +181,7 @@ Example:
 - [ ] **[Authentication]**
 - [ ] **[Authorization]**
 - [ ] **[Password_Encryption]**
+- [ ] **[LogOut_User_after_pswd_Change]**
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
@@ -187,7 +190,8 @@ Example:
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/Kasaija-Kenneth/chat-magic-backend/issues).
+Feel free to check the
+[issues page](https://github.com/Kasaija-Kenneth/chat-magic-backend/issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

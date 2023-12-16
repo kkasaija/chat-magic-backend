@@ -8,21 +8,14 @@ const tokenGen = (payload) => {
   });
 };
 
-exports.isOwnProfile = async (req, res, next) => {
+exports.isOwner = (req, res, next) => {
   try {
-    let token = req.headers.authorization ? req.headers.authorization : null;
-    if (!token) throw new Error("You are not authenticated. Please login");
-
-    if (token.startsWith("Bearer")) {
-      token = await util.promisify(jwt.verify)(
-        token.split(" ")[1],
-        process.env.S_KEY
-      );
-    }
-
-    const owner = req.user && token && token.id === req.user._id;
+    //credentials and user objects are defined in the 'protect' middleware function
+    const credentials = req.credentials;
+    const user = req.user;
+    const owner = user && credentials && credentials.id === user._id;
     if (!owner) {
-      throw new Error("You are not authorized to perform this action");
+      throw new Error("You are not authorized to perform this action. Only profile owners can update/ delete");
     }
     next();
   } catch (error) {
@@ -80,6 +73,43 @@ exports.register = async (req, res) => {
     res.status(400).json({
       status: "Fail",
       error,
+    });
+  }
+};
+
+exports.protect = async (req, res, next) => {
+  try {
+    //check if token exists
+    let token = req.headers.authorization ? req.headers.authorization : null;
+    if (!token) throw new Error("You are not authenticated. Please login");
+
+    //validate the received token
+    if (token.startsWith("Bearer")) {
+      token = await util.promisify(jwt.verify)(
+        token.split(" ")[1],
+        process.env.S_KEY
+      );
+    }
+
+    //check if user exists
+    const user = await User.findById(token.id).select("-password");
+    if (!user) throw new Error("The user does not exist");
+
+    //check if user changed password after issuance of token (i.e after login)
+    if (await user.isUserUpdated(token.iat))
+      throw new Error(
+        "Your User Profile was recently updated. Please login again"
+      );
+
+    //Add decoded token to req object
+    req.credentials = token
+
+    //add user details to request object
+    req.user;
+    next();
+  } catch (error) {
+    res.json({
+      error: error.message,
     });
   }
 };

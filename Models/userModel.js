@@ -48,9 +48,16 @@ UserSchema.pre("save", async function (next) {
 });
 
 //check if provided password matches database password during login
-UserSchema.methods.isAuthentic = async function (pswd) {
-  //the first parameter of bcrypt.compare() must be a plain text string
-  return await bcrypt.compare(pswd, this.password);
+UserSchema.methods = {
+  isAuthentic: async function (pswd) {
+    //the first parameter of bcrypt.compare() must be a plain text string
+    return await bcrypt.compare(pswd, this.password);
+  },
+
+  isUserUpdated: async function (signedInAt) {
+    //const seconds_since_last_update = this.updatedAt.getTime() / 1000;
+    return signedInAt < this.updatedAt.getTime() / 1000;
+  },
 };
 
 module.exports = mongoose.model("User", UserSchema);

@@ -15,7 +15,7 @@ exports.isOwner = (req, res, next) => {
     const user = req.user;
     const owner = user && credentials && credentials.id === user._id;
     if (!owner) {
-      throw new Error("You are not authorized to perform this action");
+      throw new Error("You are not authorized to perform this action. Only profile owners can update/ delete");
     }
     next();
   } catch (error) {

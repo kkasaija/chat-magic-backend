@@ -8,7 +8,15 @@ router.route("/").get(authController.protect, userController.getUsers);
 router
   .route("/:user_id")
   .get(authController.protect, userController.getUser)
-  .patch(authController.protect, userController.updateUser)
-  .delete(authController.protect, userController.deleteUser);
+  .patch(
+    authController.protect,
+    authController.isOwner,
+    userController.updateUser
+  )
+  .delete(
+    authController.protect,
+    authController.isOwner,
+    userController.deleteUser
+  );
 
 module.exports = router;

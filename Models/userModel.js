@@ -35,13 +35,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-UserSchema.methods = {
-  //check if provided password matches database password during login
-  isAuthentic: async function (password) {
-    return await bcrypt.compare(this.password, password);
-  },
-};
-
 //Encrypt password before saving user object in database
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
@@ -49,9 +42,15 @@ UserSchema.pre("save", async function (next) {
   }
 
   //encrypt password
-  this.password = await bcrypt.hash(this.password, 12);
+  this.password = await bcrypt.hash(this.password, 10);
   this.confirm_password = undefined;
   next();
 });
+
+//check if provided password matches database password during login
+UserSchema.methods.isAuthentic = async function (pswd) {
+  //the first parameter of bcrypt.compare() must be a plain text string
+  return await bcrypt.compare(pswd, this.password);
+};
 
 module.exports = mongoose.model("User", UserSchema);

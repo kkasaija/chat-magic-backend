@@ -2,7 +2,7 @@ const User = require("./../Models/userModel");
 
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password -confirm_password");
+    const users = await User.find().select("-password");
     res.status(200).json({
       status: "Success",
       data: { users },
@@ -28,8 +28,7 @@ exports.checkId = async (req, res, next, id) => {
 
 exports.getUser = (req, res) => {
   const user = req.user;
-  user.password = undefined;
-  user.confirm_password = undefined;
+  req.user.password = undefined;
   res.json({ user });
 };
 
@@ -37,7 +36,6 @@ exports.updateUser = async (req, res) => {
   Object.assign(req.user, req.body);
   await req.user.save({ validateBeforeSave: false });
   req.user.password = undefined;
-  req.user.confirm_password = undefined;
   res.json({ user: req.user });
 };
 

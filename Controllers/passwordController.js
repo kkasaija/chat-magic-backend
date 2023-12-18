@@ -1,4 +1,6 @@
-const User = require("../Models/userModel");
+const User = require("../Models/userModel"),
+  sendEmail = require("./../Utils/sendEmail"),
+  generateEmail = require("./../Utils/generateEmail");
 
 //Handling forgotten passwords
 exports.forgotPassword = async (req, res, next) => {
@@ -7,16 +9,16 @@ exports.forgotPassword = async (req, res, next) => {
   if (!user)
     throw new Error("User does not exist. Please provide a Valid User Email");
 
-  //2. generate random token
+  //2. generate random password reset token
   const resetToken = user.generatePasswordResetToken();
 
   //save the generated token and token expiry time to database
   await user.save({ validateBeforeSave: false });
 
   //3. send token to user
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/resetPassword/${resetToken}`;
+  const resetUrl = `${req.protocol}://${req.get("host")}/api/users/${
+    user._id
+  }/resetPassword/${resetToken}`;
 
   // const message = `We received a request from you to reset your password. Please use the link below to reset\n\n${resetUrl}\n\nThe link will be valid for only 10 minutes`;
 
@@ -70,12 +72,10 @@ exports.resetPassword = async (req, res, next) => {
   user.passwordResetTokenExpiresIn = undefined;
 
   await user.save();
-  //sign in 
 
   res.status(200).json({
     status: "Succeeded",
     message: "Password changed successfully. you can go to login page",
-    token,
   });
   next();
 };

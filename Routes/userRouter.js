@@ -21,7 +21,7 @@ router
   );
 
 router
-  .route("/:user_id/forgotPassword")
+  .route("/forgotPassword")
   .post(passwordController.forgotPassword);
 router
   .route("/:user_id/resetPassword/:token")

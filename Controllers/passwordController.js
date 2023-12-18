@@ -22,7 +22,7 @@ exports.forgotPassword = async (req, res, next) => {
 
   // const message = `We received a request from you to reset your password. Please use the link below to reset\n\n${resetUrl}\n\nThe link will be valid for only 10 minutes`;
 
-  const message = generateEmail({
+  const message = await generateEmail({
     name: user.name,
     resetLink: resetUrl,
   });
@@ -46,10 +46,13 @@ exports.forgotPassword = async (req, res, next) => {
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpiresIn = undefined;
     user.save({ validateBeforeSave: false });
-    throw new Error(
-      `There was an error sending a password reset email. Please try again later`
-    );
+    res.json({ error });
+    // throw new Error(
+    //   `There was an error sending a password reset email. Please try again later`
+    // );
   }
+
+  next();
 };
 
 exports.resetPassword = async (req, res, next) => {

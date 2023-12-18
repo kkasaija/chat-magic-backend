@@ -1,11 +1,11 @@
 const Mailgen = require("mailgen");
 
-const generateEmail = (params) => {
+const generateEmail = async (params) => {
   //configure mailgen
   var mailGenerator = new Mailgen({
     theme: "default",
     product: {
-      name: "Mailgen",
+      name: "Chat Magic Team",
       link: "https://mailgen.js/",
     },
   });
@@ -31,7 +31,7 @@ const generateEmail = (params) => {
   };
 
   //Generate HTML message
-  return mailGenerator.generate(email);
+  return await mailGenerator.generate(email);
 };
 
 module.exports = generateEmail;

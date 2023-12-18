@@ -8,19 +8,14 @@ exports.forgotPassword = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user)
     throw new Error("User does not exist. Please provide a Valid User Email");
-
   //2. generate random password reset token
-  const resetToken = user.generatePasswordResetToken();
-
+  const resetToken = await user.generatePasswordResetToken();
   //save the generated token and token expiry time to database
   await user.save({ validateBeforeSave: false });
-
   //3. send token to user
   const resetUrl = `${req.protocol}://${req.get("host")}/api/users/${
     user._id
   }/resetPassword/${resetToken}`;
-
-  // const message = `We received a request from you to reset your password. Please use the link below to reset\n\n${resetUrl}\n\nThe link will be valid for only 10 minutes`;
 
   const message = await generateEmail({
     name: user.name,
@@ -37,19 +32,15 @@ exports.forgotPassword = async (req, res, next) => {
 
     res.status(200).json({
       status: "Succeeded",
-      message: "Password reset link sent to user Email",
-
-      //sending this data for postman environment automation
-      reseToken: resetToken,
+      message: `Password reset link sent to Email ${user.email}`,
     });
   } catch (error) {
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpiresIn = undefined;
     user.save({ validateBeforeSave: false });
-    res.json({ error });
-    // throw new Error(
-    //   `There was an error sending a password reset email. Please try again later`
-    // );
+    throw new Error(
+      `There was an error sending a password reset email. Please try again later`
+    );
   }
 
   next();
@@ -67,7 +58,6 @@ exports.resetPassword = async (req, res, next) => {
   }
 
   const user = await User.findOne({ passwordResetToken: req.params.reseToken });
-
   //reset user password
   user.password = req.body.password;
   user.confirm_password = req.body.confirmPassword;

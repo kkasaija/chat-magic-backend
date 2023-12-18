@@ -2,11 +2,11 @@ const User = require("./../Models/userModel");
 const jwt = require("jsonwebtoken");
 const util = require("util");
 
-const tokenGen = (payload) => {
-  return jwt.sign(payload, process.env.S_KEY, {
-    expiresIn: process.env.MAX_AGE,
-  });
-};
+// const tokenGen = (payload) => {
+//   return jwt.sign(payload, process.env.S_KEY, {
+//     expiresIn: process.env.MAX_AGE,
+//   });
+// };
 
 exports.isOwner = (req, res, next) => {
   try {
@@ -15,7 +15,9 @@ exports.isOwner = (req, res, next) => {
     const user = req.user;
     const owner = user && credentials && credentials.id === user._id;
     if (!owner) {
-      throw new Error("You are not authorized to perform this action. Only profile owners can update/ delete");
+      throw new Error(
+        "You are not authorized to perform this action. Only profile owners can update/ delete"
+      );
     }
     next();
   } catch (error) {
@@ -41,14 +43,21 @@ exports.signIn = async (req, res) => {
       throw new Error("User email/password incorrect");
 
     //if all conditions matched, generate toten and render user
-    const token = tokenGen({ id: user._id });
+    const token = user.generateJWToken();
+
+    //create a cookie definition
+    let options = {
+      maxAge: 1000 * 60 * 20, // would expire in 20minutes
+      httpOnly: true, // The cookie is only accessible by the web server
+      secure: true,
+      sameSite: "None",
+    };
+
     user.password = undefined;
+    res.cookie("SessionID", token, options); // set the token to respons header, so that the client sends it back on each subsequent request
     res.status(200).json({
       status: "Success",
-      data: {
-        user,
-      },
-      token,
+      message: "You have successfully logged in",
     });
   } catch (error) {
     res.status(400).json({
@@ -80,11 +89,12 @@ exports.register = async (req, res) => {
 exports.protect = async (req, res, next) => {
   try {
     //check if token exists
-    let token = req.headers.authorization ? req.headers.authorization : null;
+    let token = req.headers.cookie ? req.headers.cookie : null;
+    console.log(req.headers);
     if (!token) throw new Error("You are not authenticated. Please login");
 
     //validate the received token
-    if (token.startsWith("Bearer")) {
+    if (token.startsWith("authID")) {
       token = await util.promisify(jwt.verify)(
         token.split(" ")[1],
         process.env.S_KEY
@@ -102,7 +112,7 @@ exports.protect = async (req, res, next) => {
       );
 
     //Add decoded token to req object
-    req.credentials = token
+    req.credentials = token;
 
     //add user details to request object
     req.user;

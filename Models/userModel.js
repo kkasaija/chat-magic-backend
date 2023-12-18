@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -57,6 +58,12 @@ UserSchema.methods = {
   isUserUpdated: async function (signedInAt) {
     //const seconds_since_last_update = this.updatedAt.getTime() / 1000;
     return signedInAt < this.updatedAt.getTime() / 1000;
+  },
+
+  generateJWToken: function () {
+    return jwt.sign({ id: this._id }, process.env.S_KEY, {
+      expiresIn: process.env.JWT_AGE,
+    });
   },
 };
 

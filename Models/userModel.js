@@ -32,6 +32,9 @@ const UserSchema = new mongoose.Schema(
         message: "The provided passwords do not match",
       },
     },
+
+    passwordResetToken: String,
+    passwordResetTokenExpiresIn: Date,
   },
   { timestamps: true }
 );
@@ -64,6 +67,29 @@ UserSchema.methods = {
     return jwt.sign({ id: this._id }, process.env.S_KEY, {
       expiresIn: process.env.JWT_AGE,
     });
+  },
+
+  generatePasswordResetToken: async function () {
+    //generate a plain token
+    const resetToken = crypto.randomBytes(64).toString("hex");
+    //encrypt the token
+    this.passwordResetToken = await bcrypt.hash(resetToken, 10);
+
+    //set token expiry date to 20 mins
+    this.passwordResetTokenExpiresIn = new Date(
+      new Date().getTime() + 1000 * 60 * 20
+    );
+    //return plain token to user
+    return resetToken;
+  },
+};
+
+UserSchema.statics = {
+  verifyResetToken: async function (token, currenTime) {
+    return (
+      (await bcrypt.compare(token, this.passwordResetToken)) &&
+      this.passwordResetTokenExpiresIn > currenTime
+    );
   },
 };
 

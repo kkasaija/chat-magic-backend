@@ -65,7 +65,7 @@ exports.signIn = async (req, res) => {
   }
 };
 
-exports.signOut = async (req, res) => {
+exports.signOut = (req, res) => {
   res.clearCookie("token").status(200).json({
     status: "Success",
     message: "Successfully logged out 😏 🍀",
@@ -107,7 +107,8 @@ exports.protect = async (req, res, next) => {
     if (await user.isUserUpdated(token.iat)) {
       res.clearCookie("token").json({
         status: "Success",
-        message: "Your User Profile was recently updated and you have been logged out. Please login again",
+        message:
+          "Your User Profile was recently updated and you have been logged out. Please login again",
       });
       return;
     }

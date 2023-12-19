@@ -10,6 +10,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);

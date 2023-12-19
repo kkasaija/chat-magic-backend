@@ -78,14 +78,12 @@ UserSchema.methods = {
 
     //set token expiry date to 20 mins
     this.passwordResetTokenExpiresIn = new Date(
-      new Date().getTime() + 1000 * 60 * 20
+      new Date().getTime() + 1000 * 60 * 60
     );
     //return plain token to user
     return resetToken;
   },
-};
 
-UserSchema.statics = {
   verifyResetToken: async function (token, currenTime) {
     return (
       (await bcrypt.compare(token, this.passwordResetToken)) &&

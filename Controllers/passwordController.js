@@ -33,6 +33,7 @@ exports.forgotPassword = async (req, res, next) => {
     res.status(200).json({
       status: "Succeeded",
       message: `Password reset link sent to Email ${user.email}`,
+      reseToken: resetToken,
     });
   } catch (error) {
     user.passwordResetToken = undefined;
@@ -47,9 +48,14 @@ exports.forgotPassword = async (req, res, next) => {
 };
 
 exports.resetPassword = async (req, res, next) => {
-  //check if user with given token exists
-  const passed = await User.verifyResetToken(req.params.reseToken, new Date());
+  const { user_id, token } = req.params,
+    now = new Date().getTime(),
+    user = await User.findById({ user_id });
 
+  //check if user with given token exists
+  if (!user) throw new Error("User doesn't exist");
+
+  const passed = await user.verifyResetToken(token, new Date());
   //check if token expired or password already been reset
   if (!passed) {
     throw new Error(
@@ -57,10 +63,9 @@ exports.resetPassword = async (req, res, next) => {
     );
   }
 
-  const user = await User.findOne({ passwordResetToken: req.params.reseToken });
   //reset user password
   user.password = req.body.password;
-  user.confirm_password = req.body.confirmPassword;
+  user.confirm_password = req.body.confirm_password;
   user.passwordResetToken = undefined;
   user.passwordResetTokenExpiresIn = undefined;
 

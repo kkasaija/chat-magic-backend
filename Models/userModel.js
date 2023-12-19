@@ -1,5 +1,7 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const mongoose = require("mongoose"),
+  bcrypt = require("bcrypt"),
+  jwt = require("jsonwebtoken"),
+  crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -31,6 +33,9 @@ const UserSchema = new mongoose.Schema(
         message: "The provided passwords do not match",
       },
     },
+
+    passwordResetToken: String,
+    passwordResetTokenExpiresIn: Date,
   },
   { timestamps: true }
 );
@@ -57,6 +62,33 @@ UserSchema.methods = {
   isUserUpdated: async function (signedInAt) {
     //const seconds_since_last_update = this.updatedAt.getTime() / 1000;
     return signedInAt < this.updatedAt.getTime() / 1000;
+  },
+
+  generateJWToken: function () {
+    return jwt.sign({ id: this._id }, process.env.S_KEY, {
+      expiresIn: process.env.JWT_AGE,
+    });
+  },
+
+  generatePasswordResetToken: async function () {
+    //generate a plain token
+    const resetToken = crypto.randomBytes(64).toString("hex");
+    //encrypt the token
+    this.passwordResetToken = await bcrypt.hash(resetToken, 10);
+
+    //set token expiry date to 20 mins
+    this.passwordResetTokenExpiresIn = new Date(
+      new Date().getTime() + 1000 * 60 * 60
+    );
+    //return plain token to user
+    return resetToken;
+  },
+
+  verifyResetToken: async function (token, currenTime) {
+    return (
+      (await bcrypt.compare(token, this.passwordResetToken)) &&
+      this.passwordResetTokenExpiresIn > currenTime
+    );
   },
 };
 

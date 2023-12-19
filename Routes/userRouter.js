@@ -1,6 +1,7 @@
-const router = require("express").Router();
-const userController = require("./../Controllers/userController");
-const authController = require("./../Controllers/authController");
+const router = require("express").Router(),
+  userController = require("./../Controllers/userController"),
+  authController = require("./../Controllers/authController"),
+  passwordController = require("./../Controllers/passwordController");
 
 router.param("user_id", userController.checkId);
 
@@ -18,5 +19,12 @@ router
     authController.isOwner,
     userController.deleteUser
   );
+
+router
+  .route("/forgotPassword")
+  .post(passwordController.forgotPassword);
+router
+  .route("/:user_id/resetPassword/:token")
+  .patch(passwordController.resetPassword);
 
 module.exports = router;

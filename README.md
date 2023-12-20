@@ -60,9 +60,9 @@
 - > SignUp &nbsp; `User can signup to the application by way of registration`
 - > User_list &nbsp; `Visitors can see a list of registered users`
 - > Authentication &nbsp; `Registered users able to sign in and out`
-- > Protected User Profile &nbsp;
+- > Protected User Profile &nbsp; >
   > `Only registered users can see user profile after sign in`
-- > Authorized User edit and delete &nbsp;
+- > Authorized User edit and delete &nbsp; >
   > `Only authenticated users can edit and delete their own profiles`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -71,10 +71,9 @@
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-> Add a link to your deployed project.
+> [Live Demo Link]()
 
-- [Live Demo Link]()
-- [Frontend Link](https://github.com/Kasaija-Kenneth/chat-magic-frontend)
+> [Frontend Link](https://github.com/Kasaija-Kenneth/chat-magic-frontend)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -82,59 +81,42 @@
 
 ## 💻 Getting Started <a name="getting-started"></a>
 
-> Describe how a new developer could make use of your project.
-
 To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 
 In order to run this project you need:
 
-<!--
-Example command:
+> [Install Git](https://git-scm.com/)
 
-```sh
- gem install rails
-```
- -->
+> [Install Node](https://nodejs.org/en)
 
 ### Setup
 
 Clone this repository to your desired folder:
 
-<!--
-Example commands:
-
 ```sh
-  cd my-folder
-  git clone git@github.com:myaccount/my-project.git
+  git https://github.com/Kasaija-Kenneth/chat-magic-backend
+  cd chat-magic-backend
 ```
---->
 
 ### Install
 
 Install this project with:
 
-<!--
-Example command:
-
 ```sh
-  cd my-project
-  gem install
+  cd chat-magic-backend
+  npm install
 ```
---->
 
 ### Usage
 
 To run the project, execute the following command:
 
-<!--
-Example command:
-
 ```sh
-  rails server
+  npm run dev #running in development environment
+  npm run prod #simutating production environment
 ```
---->
 
 ### Run tests
 
@@ -182,6 +164,7 @@ Example:
 - [ ] **[Authorization]**
 - [ ] **[Password_Encryption]**
 - [ ] **[LogOut_User_after_pswd_Change]**
+- [ ] **[Unit_tests]**
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
@@ -199,9 +182,8 @@ Feel free to check the
 
 ## ⭐️ Show your support <a name="support"></a>
 
-> Write a message to encourage readers to support your project
-
-If you like this project...
+If you like this project please kindly give it a star⭐,
+[click here to star this project](https://github.com/Kasaija-Kenneth?tab=repositories)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -209,9 +191,7 @@ If you like this project...
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-> Give credit to everyone who inspired your codebase.
-
-I would like to thank...
+I would like to thankyou for taking your time to interact with this project
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

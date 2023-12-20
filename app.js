@@ -4,6 +4,7 @@ const express = require("express"),
   morgan = require("morgan"),
   userRouter = require("./Routes/userRouter"),
   authRouter = require("./Routes/authRouter"),
+  defaultRoute = require("./Utils/defaultRoute"),
   app = express();
 
 app.use(cors());
@@ -13,5 +14,7 @@ app.use(express.json());
 
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+
+app.use("*", defaultRoute);
 
 module.exports = app;

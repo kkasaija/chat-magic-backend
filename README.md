@@ -122,14 +122,10 @@ To run the project, execute the following command:
 
 To run tests, run the following command:
 
-<!--
-Example command:
-
 ```sh
-  bin/rails test test/models/article_test.rb
+  npm run test #runs test without watch
+  npm run test:watch #runs test while automatically watching for any changes in code
 ```
---->
-
 ### Deployment
 
 You can deploy this project using:

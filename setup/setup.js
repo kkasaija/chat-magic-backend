@@ -10,14 +10,14 @@ module.exports = function (database) {
   });
 
   //after each test
-  afterEach(async () => {
-    //return an object containing all connections
-    const collections = mongoose.connection.collections;
+  // afterEach(async () => {
+  //   //return an object containing all connections
+  //   const collections = mongoose.connection.collections;
 
-    for (let name in collections) {
-      await mongoose.connection.collections[name].deleteMany();
-    }
-  });
+  //   for (let name in collections) {
+  //     await mongoose.connection.collections[name].deleteMany();
+  //   }
+  // });
 
   //after all tests
   afterAll(async function () {

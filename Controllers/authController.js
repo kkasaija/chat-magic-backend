@@ -75,7 +75,7 @@ exports.signOut = (req, res) => {
 exports.register = async (req, res) => {
   try {
     const newUser = await User.create(req.body);
-    res.status(201).json({
+    res.status(200).json({
       status: "Success",
       data: {
         user: newUser,

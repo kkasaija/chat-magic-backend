@@ -5,7 +5,7 @@ const connect = require("./Utils/dbConnection"),
 
 app.listen(PORT, function (error) {
   if (error) console.log(err);
-  console.info("Server started successfully on port:", PORT);
+  console.info(`Server started successfully:, ${process.env.SERVER_URL}`);
 });
 
-connect(process.env.DB_URL);
+connect(`${process.env.DB_URL}/${process.env.DB_NAME}`);

@@ -44,9 +44,9 @@ exports.signIn = async (req, res) => {
     //create a cookie definition
     let options = {
       maxAge: 1000 * 60 * 20, // would expire in 20minutes
-      httpOnly: true, // used during development
-      secure: process.env.NODE_ENV === "production", //used during production
-      //sameSite: "None",
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
     };
 
     user.password = undefined;

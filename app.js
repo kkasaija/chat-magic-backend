@@ -6,7 +6,7 @@ let express = require("express"),
   authRouter = require("./Routes/authRouter"),
   defaultRoute = require("./Utils/defaultRoute"),
   app = express(),
-  corsOptions = {};
+  corsOptions;
 
 if (process.env.NODE_ENV === "development") {
   corsOptions = {

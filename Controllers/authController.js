@@ -41,17 +41,33 @@ exports.signIn = async (req, res) => {
     //if all conditions matched, generate toten and render user
     const token = user.generateJWToken();
 
-    //create a cookie definition
-    let options = {
-      maxAge: 1000 * 60 * 20, // would expire in 20minutes
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    };
-
     user.password = undefined;
+
+    //create a cookie definition based on app environment
+    let cookieOptions;
+    if (process.env.NODE_ENV === "development") {
+      cookieOptions = {
+        maxAge: 1000 * 60 * 20, // would expire in 20minutes
+        httpOnly: true, //can only be accessed by server requests
+        secure: false, // secure = true means send cookie over https
+        sameSite: "none",
+        domain: "localhost",
+        path: "/", // path where cookie is valid
+      };
+    }
+
+    if (process.env.NODE_ENV === "production") {
+      cookieOptions = {
+        maxAge: 1000 * 60 * 20, // would expire in 20minutes
+        httpOnly: true, //can only be accessed by server requests
+        secure: true, // secure = true means send cookie over https
+        sameSite: "none",
+        path: "/", // path where cookie is valid
+      };
+    }
+
     res
-      .cookie("token", token, options) // set the token to respons header, so that the client sends it back on each subsequent request
+      .cookie("token", token, cookieOptions) // set the token to respons header, so that the client sends it back on each subsequent request
       .status(200)
       .json({
         status: "Success",

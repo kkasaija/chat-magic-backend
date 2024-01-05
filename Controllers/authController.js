@@ -44,27 +44,13 @@ exports.signIn = async (req, res) => {
     user.password = undefined;
 
     //create a cookie definition based on app environment
-    let cookieOptions;
-    if (process.env.NODE_ENV === "development") {
-      cookieOptions = {
-        maxAge: 1000 * 60 * 20, // would expire in 20minutes
-        httpOnly: true, //can only be accessed by server requests
-        secure: false, // secure = true means send cookie over https
-        sameSite: "none",
-        domain: "localhost",
-        path: "/", // path where cookie is valid
-      };
-    }
-
-    if (process.env.NODE_ENV === "production") {
-      cookieOptions = {
-        maxAge: 1000 * 60 * 20, // would expire in 20minutes
-        httpOnly: true, //can only be accessed by server requests
-        secure: true, // secure = true means send cookie over https
-        sameSite: "none",
-        path: "/", // path where cookie is valid
-      };
-    }
+    let cookieOptions = {
+      maxAge: 1000 * 60 * 4, // would expire in 20minutes
+      httpOnly: true, //can only be accessed by server requests
+      secure: true, // secure = true means send cookie over https
+      sameSite: "none",
+      partitioned: true,
+    };
 
     res
       .cookie("token", token, cookieOptions) // set the token to respons header, so that the client sends it back on each subsequent request
@@ -72,11 +58,13 @@ exports.signIn = async (req, res) => {
       .json({
         status: "Success",
         message: "You have successfully logged in",
+        loggedIn: true,
       });
   } catch (error) {
     res.status(400).json({
       status: "Fail",
       message: error.message,
+      loggedIn: false,
     });
   }
 };
@@ -121,12 +109,11 @@ exports.protect = async (req, res, next) => {
 
     //check if user changed password after issuance of token (i.e after login)
     if (await user.isUserUpdated(token.iat)) {
-      res.clearCookie("token").json({
+      return res.clearCookie("token").json({
         status: "Success",
         message:
           "Your User Profile was recently updated and you have been logged out. Please login again",
       });
-      return;
     }
 
     //Add decoded token to req object
@@ -139,5 +126,17 @@ exports.protect = async (req, res, next) => {
     res.json({
       error: error.message,
     });
+  }
+};
+
+//check if user is logged in when app starts(front end)
+exports.loggedIn = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.json(false);
+    await util.promisify(jwt.verify)(token, process.env.S_KEY);
+    return res.json(true);
+  } catch (error) {
+    res.json(false);
   }
 };

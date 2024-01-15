@@ -23,7 +23,7 @@ describe("\nAUTHENTICATION CHECK TESTS (i.e Registration, and Signin)", () => {
         expect(res.headers["content-type"]).toEqual(
           expect.stringContaining("json")
         );
-        expect(res.body.data.user).toEqual(
+        expect(res.body.user).toEqual(
           expect.objectContaining({
             __v: 0,
             _id: expect.any(String),

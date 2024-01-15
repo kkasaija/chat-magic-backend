@@ -81,9 +81,7 @@ exports.register = async (req, res) => {
     const newUser = await User.create(req.body);
     res.status(200).json({
       status: "Success",
-      data: {
-        user: newUser,
-      },
+      user: newUser,
     });
   } catch (error) {
     res.status(400).json({
@@ -131,11 +129,12 @@ exports.protect = async (req, res, next) => {
 
 //check if user is logged in when app starts(front end)
 exports.loggedIn = async (req, res) => {
+  let token;
   try {
-    const token = req.cookies.token;
+    token = req.cookies.token;
     if (!token) return res.json(false);
-    await util.promisify(jwt.verify)(token, process.env.S_KEY);
-    return res.json(true);
+    token = await util.promisify(jwt.verify)(token, process.env.S_KEY);
+    if (await User.findById(token.id)) return res.json(true);
   } catch (error) {
     res.json(false);
   }

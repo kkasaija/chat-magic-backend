@@ -1,5 +1,5 @@
 const devErrors = require("../errors/devErrors"),
-  prodErrors = require("../errors/devErrors");
+  prodErrors = require("../errors/prodErrors");
 
 module.exports = (error, req, res, next) => {
   error.statusCode = error.statusCode ? error.statusCode : 500;

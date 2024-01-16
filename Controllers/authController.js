@@ -1,7 +1,8 @@
 const User = require("./../Models/userModel"),
   jwt = require("jsonwebtoken"),
   util = require("util"),
-  CustomError = require("../errors/customErrorClass");
+  CustomError = require("../errors/customErrorClass"),
+  { threeParamsAsyncHandler } = require("../errors/asyncHandler");
 
 exports.isOwner = (req, res, next) => {
   //The 'credentials', and 'user' objects are defined in the 'protect' middleware function
@@ -21,7 +22,7 @@ exports.isOwner = (req, res, next) => {
   next();
 };
 
-exports.signIn = async (req, res, next) => {
+exports.signIn = threeParamsAsyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   //check if email and password are provided
   if (!email || !password)
@@ -60,7 +61,7 @@ exports.signIn = async (req, res, next) => {
     });
 
   next();
-};
+});
 
 exports.signOut = (req, res) => {
   res.clearCookie("token").status(200).json({
@@ -69,7 +70,7 @@ exports.signOut = (req, res) => {
   });
 };
 
-exports.register = async (req, res, next) => {
+exports.register = threeParamsAsyncHandler(async (req, res, next) => {
   const newUser = await User.create(req.body);
   res.status(200).json({
     status: "Success",
@@ -77,9 +78,9 @@ exports.register = async (req, res, next) => {
   });
 
   next();
-};
+});
 
-exports.protect = async (req, res, next) => {
+exports.protect = threeParamsAsyncHandler(async (req, res, next) => {
   //check if token exists
   let token = req.cookies.token ? req.cookies.token : null;
   if (!token)
@@ -109,10 +110,10 @@ exports.protect = async (req, res, next) => {
   req.user;
 
   next();
-};
+});
 
 //check if user is logged in when app starts(front end)
-exports.loggedIn = async (req, res, next) => {
+exports.loggedIn = threeParamsAsyncHandler(async (req, res, next) => {
   let token;
 
   token = req.cookies.token;
@@ -121,4 +122,4 @@ exports.loggedIn = async (req, res, next) => {
   if (await User.findById(token.id)) return res.json(true);
 
   next();
-};
+});

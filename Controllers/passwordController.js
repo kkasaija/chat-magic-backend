@@ -1,10 +1,11 @@
 const User = require("../Models/userModel"),
   sendEmail = require("./../Utils/sendEmail"),
   generateEmail = require("./../Utils/generateEmail"),
-  CustomError = require("../errors/customErrorClass");
+  CustomError = require("../errors/customErrorClass"),
+  { threeParamsAsyncHandler } = require("../errors/asyncHandler");
 
 //Handling forgotten passwords
-exports.forgotPassword = async (req, res, next) => {
+exports.forgotPassword = threeParamsAsyncHandler(async (req, res, next) => {
   //1. get user by email
   const user = await User.findOne({ email: req.body.email });
   if (!user)
@@ -42,9 +43,9 @@ exports.forgotPassword = async (req, res, next) => {
   });
 
   next();
-};
+});
 
-exports.resetPassword = async (req, res, next) => {
+exports.resetPassword = threeParamsAsyncHandler(async (req, res, next) => {
   const { user_id, token } = req.params,
     user = await User.findById({ _id: user_id });
   //check if user with given token exists
@@ -84,4 +85,4 @@ exports.resetPassword = async (req, res, next) => {
   });
 
   next();
-};
+});

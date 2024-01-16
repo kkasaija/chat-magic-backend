@@ -1,30 +1,27 @@
-const User = require("./../Models/userModel");
+const User = require("./../Models/userModel"),
+  CustomError = require("../errors/customErrorClass"),
+  {
+    threeParamsAsyncHandler,
+    fourParamsAsyncHandler,
+  } = require("../errors/asyncHandler");
 
-exports.getUsers = async (req, res) => {
-  try {
-    const users = await User.find().select("-password");
-    res.status(200).json({
-      status: "Success",
-      users,
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: "Failed",
-      message: error.message,
-    });
-  }
-};
+exports.getUsers = threeParamsAsyncHandler(async (req, res, next) => {
+  const users = await User.find().select("-password");
+  res.status(200).json({
+    status: "Success",
+    users,
+  });
 
-exports.checkId = async (req, res, next, id) => {
-  try {
-    const user = await User.findOne({ _id: id });
-    if (!user) throw new Error("No such user exists");
-    req.user = user;
-    next();
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
+  next();
+});
+
+exports.checkId = fourParamsAsyncHandler(async (req, res, next, id) => {
+  const user = await User.findOne({ _id: id });
+  if (!user) return next(new CustomError("No such user exists", 400));
+  req.user = user;
+
+  next();
+});
 
 exports.getUser = (req, res) => {
   const user = req.user;
@@ -32,15 +29,19 @@ exports.getUser = (req, res) => {
   res.json({ user });
 };
 
-exports.updateUser = async (req, res) => {
+exports.updateUser = threeParamsAsyncHandler(async (req, res, next) => {
   Object.assign(req.user, req.body);
   await req.user.save({ validateBeforeSave: false });
   req.user.password = undefined;
   res.json({ user: req.user });
-};
 
-exports.deleteUser = async (req, res) => {
+  next();
+});
+
+exports.deleteUser = threeParamsAsyncHandler(async (req, res, next) => {
   const user = req.user;
   await user.deleteOne();
   res.json({ status: "Success" });
-};
+
+  next();
+});

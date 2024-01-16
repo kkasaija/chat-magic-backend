@@ -7,7 +7,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "dev": "SET NODE_ENV=development && nodemon server.js",
-    "prod": "SET NODE_ENV=production && nodemon server.js"
+    "prod": "SET NODE_ENV=production && node server.js"
   },
   "keywords": [],
   "author": "KASAIJA KENNETH",

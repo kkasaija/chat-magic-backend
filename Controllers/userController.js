@@ -17,7 +17,7 @@ exports.getUsers = threeParamsAsyncHandler(async (req, res, next) => {
 
 exports.checkId = fourParamsAsyncHandler(async (req, res, next, id) => {
   const user = await User.findOne({ _id: id });
-  if (!user) next(new CustomError("No such user exists", 400));
+  if (!user) return next(new CustomError("No such user exists", 400));
   req.user = user;
 
   next();

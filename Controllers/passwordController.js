@@ -9,7 +9,7 @@ exports.forgotPassword = threeParamsAsyncHandler(async (req, res, next) => {
   //1. get user by email
   const user = await User.findOne({ email: req.body.email });
   if (!user)
-    next(
+    return next(
       new CustomError(
         "User does not exist. Please provide a Valid User Email",
         404
@@ -51,7 +51,7 @@ exports.resetPassword = threeParamsAsyncHandler(async (req, res, next) => {
   //check if user with given token exists
   if (!user) next(new CustomError("User doesn't exist", 400));
   if (!user.passwordResetToken)
-    next(
+    return next(
       new CustomError(
         "Password reset link has already been used and link expired",
         400
@@ -60,7 +60,7 @@ exports.resetPassword = threeParamsAsyncHandler(async (req, res, next) => {
   const passed = await user.verifyResetToken(token, new Date());
   //check if token expired or password already been reset
   if (!passed) {
-    next(
+    return next(
       new CustomError(
         "Invalid link. Password may have already been reset or link expired",
         400
@@ -68,7 +68,7 @@ exports.resetPassword = threeParamsAsyncHandler(async (req, res, next) => {
     );
   }
   if (!req.body.password || !req.body.confirm_password)
-    next(
+    return next(
       new CustomError("No update parameters provided. Please try again", 400)
     );
   //reset user password

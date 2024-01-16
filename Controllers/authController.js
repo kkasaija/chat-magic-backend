@@ -26,16 +26,16 @@ exports.signIn = threeParamsAsyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   //check if email and password are provided
   if (!email || !password)
-    next(
+    return next(
       new CustomError("Email and password are required for signing in", 400)
     );
 
   const user = await User.findOne({ email });
-  if (!user) next(new CustomError("User not registered", 400));
+  if (!user) return next(new CustomError("User not registered", 400));
   //check if email/ password matched
 
   if (!(await user.isAuthentic(password)))
-    next(new CustomError("User email/password incorrect", 400));
+    return next(new CustomError("User email/password incorrect", 400));
 
   //if all conditions matched, generate toten and render user
   const token = user.generateJWToken();
@@ -84,7 +84,9 @@ exports.protect = threeParamsAsyncHandler(async (req, res, next) => {
   //check if token exists
   let token = req.cookies.token ? req.cookies.token : null;
   if (!token)
-    next(new CustomError("You are not authenticated. Please login", 401));
+    return next(
+      new CustomError("You are not authenticated. Please login", 401)
+    );
 
   //validate the received token
   //for jwt stored in a cookie named token
@@ -92,7 +94,7 @@ exports.protect = threeParamsAsyncHandler(async (req, res, next) => {
 
   //check if user exists
   const user = await User.findById(token.id).select("-password");
-  if (!user) next(new CustomError("The user does not exist", 400));
+  if (!user) return next(new CustomError("The user does not exist", 400));
 
   //check if user changed password after issuance of token (i.e after login)
   if (await user.isUserUpdated(token.iat)) {

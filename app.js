@@ -22,6 +22,6 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
 app.use("*", defaultRoute);
-app.use(globalErrorHandler)
+app.use(globalErrorHandler);
 
 module.exports = app;

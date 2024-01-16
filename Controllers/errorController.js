@@ -1,9 +1,11 @@
-const devErrors = require("../errors/devErrors");
+const devErrors = require("../errors/devErrors"),
+  prodErrors = require("../errors/devErrors");
 
 module.exports = (error, req, res, next) => {
   error.statusCode = error.statusCode ? error.statusCode : 500;
   switch (process.env.NODE_ENV) {
     case "production":
+      prodErrors(error, res);
       break;
     case "development":
       devErrors(error, res);
@@ -12,4 +14,3 @@ module.exports = (error, req, res, next) => {
   }
   next();
 };
-
